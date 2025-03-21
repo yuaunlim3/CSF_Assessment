@@ -1,65 +1,52 @@
 <div class="row mt-3">
   <div class="col d-flex justify-content-between align-items-center">
-    <div class="fs-1 fw-bold text-primary">Menu ($XXX)</div>
+    <div class="fs-1 fw-bold text-primary">Menu $<span>{{totalPrice$ | async }}</span></div>
     <div>
-      <button type="button" class="btn btn-primary">
-        Place Order (XXX)
+      <button type="button" class="btn btn-primary" [routerLink]="['/placeOrder']">
+        Place Order <span>{{total$ | async }}</span>
       </button>
     </div>
   </div>
 </div>
 
 <!-- each row display a single mene item -->
-<div class="row mb-2">
-  <div class="col">
-    <div class="menu-item">
-      <div>
-        <button type="button" class="btn btn-warning">
-          <i class="bi bi-x-square"></i>
-        </button>
-      </div>
-      <div class="menu-details">
-        <div>Name: <span class="fw-bold"> XXX </span> </div>
-        <div>Description:
-          <span class="fst-italic">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          </span>
-        </div>
-        <div></div>
-          <div class="text-danger fw-bold">Quantity: XXX</div>
-      </div>
-      <div class="menu-button-end">
-        <button type="button" class="btn btn-success">
-          <i class="bi bi-plus-circle"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<div *ngIf="menusItem$ | async as menuItem">
+  <div *ngFor="let item of menuItem">
 
-<div class="row mb-2">
-  <div class="col">
-    <div class="menu-item">
-      <div>
-        <button type="button" class="btn btn-warning">
-          <i class="bi bi-x-square"></i>
-        </button>
-      </div>
-      <div class="menu-details">
-        <div>Name: <span class="fw-bold"> XXX </span> </div>
-        <div>Description:
-          <span class="fst-italic">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          </span>
+
+    <div class="row mb-2">
+      <div class="col">
+        <div class="menu-item">
+          <div>
+            <button type="button" class="btn btn-warning" (click)="remove(item)">
+              <i class="bi bi-x-square"></i>
+            </button>
+          </div>
+          <div class="menu-details">
+            <div>Name: <span class="fw-bold"> {{item.name}} </span> </div>
+            <div>Description:
+              <span class="fst-italic">
+                {{item.description}}
+              </span>
+            </div>
+            <div>
+              Price <span>{{item.price}}</span>
+            </div>
+            <div *ngIf="cart$ | async as orders">
+              <div *ngFor="let order of orders">
+                @if (order.name === item.name) {
+                  <div class="text-danger fw-bold">Quantity:{{order.quantity}}</div>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="menu-button-end">
+            <button type="button" class="btn btn-success" (click)="add(item)">
+              <i class="bi bi-plus-circle"></i>
+            </button>
+          </div>
         </div>
-        <div></div>
-          <div class="text-danger fw-bold">Quantity: XXX</div>
-      </div>
-      <div class="menu-button-end">
-        <button type="button" class="btn btn-success">
-          <i class="bi bi-plus-circle"></i>
-        </button>
       </div>
     </div>
   </div>
-</div>
+
