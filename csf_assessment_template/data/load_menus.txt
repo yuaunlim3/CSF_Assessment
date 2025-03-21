@@ -2,3 +2,5 @@
 
 
 mongoimport --db=restaurant --collection=menus --type=json --jsonArray --file=menus.json
+
+mongoimport --uri "mongodb+srv://fred:<password>@cluster0.umu0j.mongodb.net/restaurant?retryWrites=true&w=majority" --collection menus --type=json --jsonArray --file=menus.json
